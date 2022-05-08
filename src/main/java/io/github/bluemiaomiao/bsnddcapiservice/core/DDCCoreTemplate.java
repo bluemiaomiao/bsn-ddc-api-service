@@ -1,5 +1,6 @@
 package io.github.bluemiaomiao.bsnddcapiservice.core;
 
+import io.github.bluemiaomiao.bsnddcapiservice.core.net.DDCWuhan;
 import io.github.bluemiaomiao.bsnddcapiservice.util.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -41,7 +42,7 @@ public class DDCCoreTemplate {
         this.noneEventListener = (event) -> {
             return null;
         };
-        this.noneEventListener = (event) -> {
+        this.defaultEventListener = (event) -> {
             return this.transactionSignature(event.getSender(), event.getRawTransaction());
         };
 
@@ -50,6 +51,9 @@ public class DDCCoreTemplate {
 
         this.logger.info("BSN DDC Core SDK 客户端初始化..");
         this.logger.info(String.format("加载私钥: %s", this.properties.getProperty("private-key")));
+        this.logger.info(String.format("加载网关地址: %s", this.properties.getProperty("gateway-url")));
+
+        DDCWuhan.setGatewayUrl(this.properties.getProperty("gateway-url"));
     }
 
     /**

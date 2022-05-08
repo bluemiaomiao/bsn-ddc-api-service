@@ -1,5 +1,6 @@
 package io.github.bluemiaomiao.bsnddcapiservice.handlers.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -8,8 +9,13 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class GlobalResponseEntity<T> implements Serializable {
+    @Schema(name = "code", title = "业务状态码")
     private String code;
+
+    @Schema(name = "message", title = "业务消息")
     private String message;
+
+    @Schema(name = "data")
     private T data;
 
 
