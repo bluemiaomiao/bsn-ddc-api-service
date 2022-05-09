@@ -1,8 +1,6 @@
 package io.github.bluemiaomiao.bsnddcapiservice.controllers;
 
-import io.github.bluemiaomiao.bsnddcapiservice.dto.input.ApproveAllParams;
-import io.github.bluemiaomiao.bsnddcapiservice.dto.input.ApproveParams;
-import io.github.bluemiaomiao.bsnddcapiservice.dto.input.MintParams;
+import io.github.bluemiaomiao.bsnddcapiservice.dto.input.*;
 import io.github.bluemiaomiao.bsnddcapiservice.exceptions.seventwoone.SevenTwoOneServiceInvokeFailedException;
 import io.github.bluemiaomiao.bsnddcapiservice.handlers.response.GlobalResponseEntity;
 import io.github.bluemiaomiao.bsnddcapiservice.service.SevenTwoOneService;
@@ -14,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigInteger;
 
@@ -60,9 +59,50 @@ public class SevenTwoOneController {
     @Operation(summary = "账户授权")
     @PostMapping("/approve/all")
     public ResponseEntity<GlobalResponseEntity<String>> setApproveForAll(
-            @RequestBody @Valid ApproveAllParams approveALlParams
+            @RequestBody @Valid ApproveAllParams approveAllParams
     ) throws SevenTwoOneServiceInvokeFailedException {
-        return this.sevenTwoOneService.setApprovalForAll(approveALlParams);
+        return this.sevenTwoOneService.setApprovalForAll(approveAllParams);
+    }
+
+    @Operation(summary = "账户授权查询")
+    @GetMapping("/approve/all")
+    public ResponseEntity<GlobalResponseEntity<Boolean>> isApprovedForAll(
+            @Parameter(description = "owner") @NotEmpty(message = "拥有者账户不能为空") @RequestParam("owner") String owner,
+            @Parameter(description = "operator") @NotEmpty(message = "授权者账户不能为空") @RequestParam("operator") String operator
+    ) throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.isApprovedForAll(owner, operator);
+    }
+
+    @Operation(summary = "安全转移")
+    @PostMapping("/transfer/safe")
+    public ResponseEntity<GlobalResponseEntity<String>> safeTransferFrom(
+            @RequestBody @Valid SafeTransferFromParams safeTransferFromParams
+    ) throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.safeTransferFrom(safeTransferFromParams);
+    }
+
+    @Operation(summary = "转移")
+    @PostMapping("/transfer")
+    public ResponseEntity<GlobalResponseEntity<String>> transferFrom(
+            @RequestBody @Valid TransferFromParams transferFromParams
+    ) throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.transferFrom(transferFromParams);
+    }
+
+    @Operation(summary = "销毁")
+    @PostMapping("/burn")
+    public ResponseEntity<GlobalResponseEntity<String>> burn(
+            @RequestBody @Valid BurnParams burnParams
+    ) throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.burn(burnParams);
+    }
+
+    @Operation(summary = "查询数量")
+    @GetMapping("/balance")
+    public ResponseEntity<GlobalResponseEntity<BigInteger>> balanceOf(
+            @Parameter(description = "拥有者账户") @NotBlank(message = "拥有者账户不能为空") @RequestParam("owner") String owner
+    ) throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.balanceOf(owner);
     }
 
 }

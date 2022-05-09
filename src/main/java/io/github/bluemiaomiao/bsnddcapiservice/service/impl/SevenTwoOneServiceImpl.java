@@ -1,9 +1,7 @@
 package io.github.bluemiaomiao.bsnddcapiservice.service.impl;
 
 import io.github.bluemiaomiao.bsnddcapiservice.core.DDCCoreTemplate;
-import io.github.bluemiaomiao.bsnddcapiservice.dto.input.ApproveAllParams;
-import io.github.bluemiaomiao.bsnddcapiservice.dto.input.ApproveParams;
-import io.github.bluemiaomiao.bsnddcapiservice.dto.input.MintParams;
+import io.github.bluemiaomiao.bsnddcapiservice.dto.input.*;
 import io.github.bluemiaomiao.bsnddcapiservice.exceptions.seventwoone.SevenTwoOneServiceInvokeFailedException;
 import io.github.bluemiaomiao.bsnddcapiservice.handlers.response.GlobalResponseEntity;
 import io.github.bluemiaomiao.bsnddcapiservice.service.SevenTwoOneService;
@@ -87,7 +85,101 @@ public class SevenTwoOneServiceImpl implements SevenTwoOneService {
                     approveAllParams.getApproved()
             );
         } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("账户授权调用失败");
+        }
+
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<Boolean>> isApprovedForAll(String owner, String operator) throws SevenTwoOneServiceInvokeFailedException {
+        Boolean result = null;
+
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.isApprovedForAll(owner, operator);
+        } catch (Exception e) {
             throw new SevenTwoOneServiceInvokeFailedException("账户授权查询调用失败");
+        }
+
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<String>> safeTransferFrom(SafeTransferFromParams safeTransferFromParams) throws SevenTwoOneServiceInvokeFailedException {
+        String result = null;
+
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.safeTransferFrom(
+                    safeTransferFromParams.getSender(),
+                    safeTransferFromParams.getFrom(),
+                    safeTransferFromParams.getTo(),
+                    safeTransferFromParams.getDdcID(),
+                    safeTransferFromParams.getData()
+            );
+        } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("安全转移调用失败");
+        }
+
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<String>> transferFrom(TransferFromParams transferFromParams) throws SevenTwoOneServiceInvokeFailedException {
+        String result = null;
+
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.transferFrom(
+                    transferFromParams.getSender(),
+                    transferFromParams.getFrom(),
+                    transferFromParams.getTo(),
+                    transferFromParams.getDdcID()
+            );
+        } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("转移调用失败");
+        }
+
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<String>> burn(BurnParams burnParams) throws SevenTwoOneServiceInvokeFailedException {
+        String result = null;
+
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.burn(
+                    burnParams.getSender(),
+                    burnParams.getDdcID()
+            );
+        } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("销毁调用失败");
+        }
+
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<BigInteger>> balanceOf(String owner) throws SevenTwoOneServiceInvokeFailedException {
+        BigInteger result = null;
+
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.balanceOf(owner);
+        } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("查询数量调用失败");
         }
 
         return new ResponseEntity<>(
