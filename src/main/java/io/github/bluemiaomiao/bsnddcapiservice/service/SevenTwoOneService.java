@@ -30,4 +30,14 @@ public interface SevenTwoOneService {
     ResponseEntity<GlobalResponseEntity<String>> burn(BurnParams burnParams) throws SevenTwoOneServiceInvokeFailedException;
 
     ResponseEntity<GlobalResponseEntity<BigInteger>> balanceOf(String owner) throws SevenTwoOneServiceInvokeFailedException;
+
+    ResponseEntity<GlobalResponseEntity<String>> ownerOf(BigInteger ddcID) throws SevenTwoOneServiceInvokeFailedException;
+
+    ResponseEntity<GlobalResponseEntity<String>> name() throws SevenTwoOneServiceInvokeFailedException;
+
+    ResponseEntity<GlobalResponseEntity<String>> symbols() throws SevenTwoOneServiceInvokeFailedException;
+
+    ResponseEntity<GlobalResponseEntity<String>> ddcURI(BigInteger ddcID) throws SevenTwoOneServiceInvokeFailedException;
+
+    ResponseEntity<GlobalResponseEntity<String>> setURI(SetURIParams setURIParams) throws SevenTwoOneServiceInvokeFailedException;
 }

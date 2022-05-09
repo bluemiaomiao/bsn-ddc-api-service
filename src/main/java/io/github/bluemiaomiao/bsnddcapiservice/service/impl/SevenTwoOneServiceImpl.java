@@ -187,4 +187,86 @@ public class SevenTwoOneServiceImpl implements SevenTwoOneService {
                 HttpStatus.OK
         );
     }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<String>> ownerOf(BigInteger ddcID) throws SevenTwoOneServiceInvokeFailedException {
+        String result = null;
+
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.ownerOf(ddcID);
+        } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("查询拥有者失败");
+        }
+
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<String>> name() throws SevenTwoOneServiceInvokeFailedException {
+        String result = null;
+
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.name();
+        } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("获取运行商名称调用失败");
+        }
+
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<String>> symbols() throws SevenTwoOneServiceInvokeFailedException {
+        String result = null;
+
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.symbol();
+        } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("获取运行商符号调用失败");
+        }
+
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<String>> ddcURI(BigInteger ddcID) throws SevenTwoOneServiceInvokeFailedException {
+        String result = null;
+
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.ddcURI(ddcID);
+        } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("获取DDC URI失败");
+        }
+
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<GlobalResponseEntity<String>> setURI(SetURIParams setURIParams) throws SevenTwoOneServiceInvokeFailedException {
+        String result = null;
+        try {
+            result = this.ddcCoreTemplate.buildWithDefaultEvent().ddc721Service.setURI(
+                    setURIParams.getSender(),
+                    setURIParams.getDdcID(),
+                    setURIParams.getDdcURI()
+            );
+        } catch (Exception e) {
+            throw new SevenTwoOneServiceInvokeFailedException("URI设置调用失败");
+        }
+        return new ResponseEntity<>(
+                new GlobalResponseEntity<>(result),
+                HttpStatus.OK
+        );
+    }
 }

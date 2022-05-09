@@ -105,4 +105,40 @@ public class SevenTwoOneController {
         return this.sevenTwoOneService.balanceOf(owner);
     }
 
+    @Operation(summary = "查询所有者")
+    @GetMapping("/owner")
+    public ResponseEntity<GlobalResponseEntity<String>> ownerOf(
+            @Parameter(description = "DDC唯一标识") @NotEmpty(message = "DDC唯一标识不能为空") @RequestParam("ddc-id") BigInteger ddcID
+    ) throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.ownerOf(ddcID);
+    }
+
+    @Operation(summary = "获取运营商名称")
+    @GetMapping("/name")
+    public ResponseEntity<GlobalResponseEntity<String>> name() throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.name();
+    }
+
+
+    @Operation(summary = "获取运营商符号")
+    @GetMapping("/symbols")
+    public ResponseEntity<GlobalResponseEntity<String>> symbols() throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.symbols();
+    }
+
+    @Operation(summary = "获取运营商DDCURI")
+    @GetMapping("/ddcuri")
+    public ResponseEntity<GlobalResponseEntity<String>> ddcURI(
+            @Parameter(description = "DDC唯一标识") @NotEmpty(message = "DDC唯一标识不能为空") @RequestParam("ddc-id") BigInteger ddcID
+    ) throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.ddcURI(ddcID);
+    }
+
+    @Operation(summary = "URI设置")
+    @PostMapping("/uri")
+    public ResponseEntity<GlobalResponseEntity<String>> setURI(
+            @RequestBody @Valid SetURIParams setURIParams
+    ) throws SevenTwoOneServiceInvokeFailedException {
+        return this.sevenTwoOneService.setURI(setURIParams);
+    }
 }
